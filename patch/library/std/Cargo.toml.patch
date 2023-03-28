@@ -1,0 +1,4 @@
+19c19
+< compiler_builtins = { version = "0.1.87" }
+---
+> compiler_builtins = { version = "0.1.87", features = ['mem'] }

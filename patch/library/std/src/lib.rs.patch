@@ -1,0 +1,4 @@
+589a590,592
+> #[cfg(target_os = "daisogen")]
+> #[stable(feature = "daisogen", since = "idk")]
+> pub use sys::daisogen; // Daisogen-specific API

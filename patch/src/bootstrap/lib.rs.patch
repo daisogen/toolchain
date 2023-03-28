@@ -1,0 +1,4 @@
+131c131
+<     // (Some(Mode::Std), "target_os", Some(&[])),
+---
+>     (Some(Mode::Std), "target_os", Some(&["daisogen"])),

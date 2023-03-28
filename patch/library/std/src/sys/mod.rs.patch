@@ -1,0 +1,6 @@
+48a49,53
+>     } else if #[cfg(target_os = "daisogen")] {
+>         #[stable(feature = "daisogen", since = "idk")]
+>         mod daisogen_;
+>         #[stable(feature = "daisogen", since = "idk")]
+>         pub use self::daisogen_::*;
