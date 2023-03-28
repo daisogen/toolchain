@@ -3,7 +3,6 @@ use crate::spec::{PanicStrategy, Target};
 pub fn target() -> Target {
     let mut base = super::daisogen_base::opts();
     base.cpu = "x86-64".into();
-    base.disable_redzone = true;
     base.panic_strategy = PanicStrategy::Abort;
     base.features = "-mmx,-sse,+soft-float".into();
 

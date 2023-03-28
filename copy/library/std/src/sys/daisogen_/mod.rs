@@ -8,8 +8,10 @@ pub mod cmath;
 pub mod daisogen;
 pub mod env;
 pub mod fs;
+#[path = "../unsupported/io.rs"]
 pub mod io;
 pub mod locks;
+#[path = "../unsupported/net.rs"]
 pub mod net;
 pub mod once;
 pub mod os;
@@ -17,14 +19,30 @@ pub mod os;
 pub mod os_str;
 #[path = "../unix/path.rs"]
 pub mod path;
+#[path = "../unsupported/pipe.rs"]
 pub mod pipe;
+#[path = "../unsupported/process.rs"]
 pub mod process;
 pub mod stdio;
 pub mod thread;
 #[cfg(target_thread_local)]
+#[path = "../unsupported/thread_local_dtor.rs"]
 pub mod thread_local_dtor;
+#[path = "../unsupported/thread_local_key.rs"]
 pub mod thread_local_key;
 pub mod time;
 
 mod common;
 pub use common::*;
+
+// Overriden, temporally (maybe forever)
+#[panic_handler]
+fn panic(_info: &crate::panic::PanicInfo<'_>) -> ! {
+    let text = "Userspace panic! (TODO)";
+    let strptr = text.as_bytes().as_ptr() as u64;
+    let sz = text.as_bytes().len() as u64;
+    daisogen::pd_call2_nocache("print", strptr, sz);
+
+    // exit() here and such
+    loop {}
+}
