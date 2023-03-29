@@ -2,3 +2,7 @@
 < compiler_builtins = { version = "0.1.87" }
 ---
 > compiler_builtins = { version = "0.1.87", features = ['mem'] }
+39c39
+< [target.'cfg(any(all(target_family = "wasm", not(target_os = "emscripten")), all(target_vendor = "fortanix", target_env = "sgx")))'.dependencies]
+---
+> [target.'cfg(any(all(target_family = "wasm", not(target_os = "emscripten")), all(target_vendor = "fortanix", target_env = "sgx"), target_os = "daisogen"))'.dependencies]
