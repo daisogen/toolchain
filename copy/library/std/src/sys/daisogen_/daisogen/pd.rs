@@ -1,4 +1,3 @@
-use crate::arch::global_asm;
 use crate::cell::RefCell;
 use crate::collections::HashMap;
 use crate::string::String;
@@ -96,6 +95,8 @@ pub fn pd_call5_nocache(name: &str, arg1: u64, arg2: u64, arg3: u64, arg4: u64, 
     unsafe { jmp5(arg1, arg2, arg3, arg4, arg5, pd_get_nocache(name)) }
 }
 
+// ---
+
 extern "C" {
     fn jmp_pd_get(strptr: u64, sz: usize) -> u64;
     fn jmp_pd_set(stprtr: u64, sz: usize, val: u64) -> u64;
@@ -107,7 +108,7 @@ extern "C" {
     fn jmp5(arg1: u64, arg2: u64, arg3: u64, arg4: u64, arg5: u64, ptr: u64) -> u64;
 }
 
-global_asm!(
+crate::arch::global_asm!(
     "
 jmp_pd_get:
     mov rax, 0xFFFF800000000000

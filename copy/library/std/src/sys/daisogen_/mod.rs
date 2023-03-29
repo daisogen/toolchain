@@ -35,7 +35,6 @@ pub mod thread;
 #[cfg(target_thread_local)]
 #[path = "../unsupported/thread_local_dtor.rs"]
 pub mod thread_local_dtor;
-#[path = "../unsupported/thread_local_key.rs"]
 pub mod thread_local_key;
 #[path = "../unsupported/time.rs"]
 pub mod time;
