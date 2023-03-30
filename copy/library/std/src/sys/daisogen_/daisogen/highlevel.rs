@@ -25,15 +25,14 @@ pub fn set_simple_vector(v: u8, addr: u64) {
     super::pd_call2("set_simple_vector", v as u64, addr);
 }
 
-pub type FutexID = u64;
-pub fn futex_new(var: &usize) -> FutexID {
-    super::pd_call1("futex_new", var as *const usize as u64)
-}
+pub mod futex {
+    use crate::sync::atomic::AtomicUsize;
 
-pub fn futex_wait(id: FutexID, val: usize) {
-    super::pd_call2("futex_wait", id as u64, val as u64);
-}
+    pub fn wait(var: &AtomicUsize, val: usize) {
+        super::super::pd_call2("futex_wait", var as *const AtomicUsize as u64, val as u64);
+    }
 
-pub fn futex_wake_one(id: FutexID) {
-    super::pd_call1("futex_wake_one", id as u64);
+    pub fn wake_one(var: &AtomicUsize) {
+        super::super::pd_call1("futex_wake_one", var as *const AtomicUsize as u64);
+    }
 }

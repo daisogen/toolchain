@@ -1,3 +1,7 @@
+// This is sort of a stub. It works, it prints stuff to screen, but that's
+// not really what stdout and stderr mean. This will be change in the far
+// future.
+
 use crate::io;
 
 pub struct Stdin;
@@ -24,6 +28,7 @@ impl Stdout {
 
 impl io::Write for Stdout {
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+        super::daisogen::pd_call2("print", buf.as_ptr() as u64, buf.len() as u64);
         Ok(buf.len())
     }
 
@@ -40,6 +45,7 @@ impl Stderr {
 
 impl io::Write for Stderr {
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+        super::daisogen::pd_call2("print", buf.as_ptr() as u64, buf.len() as u64);
         Ok(buf.len())
     }
 

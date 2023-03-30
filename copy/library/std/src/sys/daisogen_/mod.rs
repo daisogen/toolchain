@@ -45,11 +45,22 @@ pub use common::*;
 // Overriden, temporally (maybe forever)
 #[panic_handler]
 fn panic(info: &crate::panic::PanicInfo<'_>) -> ! {
-    let text = format!("Userspace panic: {}", info);
-    let strptr = text.as_bytes().as_ptr() as u64;
-    let sz = text.as_bytes().len() as u64;
-    daisogen::pd_call2_nocache("print", strptr, sz);
-
+    println!("Panic: {}", info);
     // exit() here and such
     loop {}
+}
+
+// Entry point calls this function, which would be defined in the libC runtime
+// But that's not present in Daisogen, so let's write it up
+#[no_mangle]
+pub extern "C" fn __libc_start_main() {
+    extern "C" {
+        fn main();
+    }
+
+    unsafe {
+        main();
+    }
+
+    // TODO: exit()
 }
