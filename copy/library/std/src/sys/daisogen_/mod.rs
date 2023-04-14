@@ -29,6 +29,7 @@ pub mod path;
 pub mod pipe;
 #[path = "../unsupported/process.rs"]
 pub mod process;
+mod start;
 pub mod stdio;
 pub mod thread;
 #[cfg(target_thread_local)]
@@ -47,19 +48,4 @@ fn panic(info: &crate::panic::PanicInfo<'_>) -> ! {
     println!("Panic: {}", info);
     // exit() here and such
     loop {}
-}
-
-// Entry point calls this function, which would be defined in the libC runtime
-// But that's not present in Daisogen, so let's write it up
-#[no_mangle]
-pub extern "C" fn __libc_start_main() {
-    extern "C" {
-        fn main();
-    }
-
-    unsafe {
-        main();
-    }
-
-    // TODO: exit()
 }

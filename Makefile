@@ -10,8 +10,6 @@ PATHS := $(shell find copy -type d)
 PATHS := $(PATHS:copy/%=rust/%)
 COPY := $(shell find copy -type f)
 COPYDST := $(COPY:copy/%=rust/%)
-PATCH := $(shell find patch -type f)
-PATCHDST := $(PATCH:patch/%.patch=rust/%)
 
 .PHONY: all
 all: | rust rust/.buildstamp
@@ -24,19 +22,15 @@ enable:
 rust:
 	git clone $(REPO)
 	cd rust && git checkout $(CHECKOUT)
-	# Make sure files are copied and patches applied
+	# Make sure files are copied
 	touch $(COPY)
-	touch $(PATCH)
 
-rust/.buildstamp: $(COPYDST) $(PATCHDST)
+rust/.buildstamp: $(COPYDST)
 	cd rust && ./x.py build library
 	touch $@
 
 $(COPYDST): rust/%: copy/% | $(PATHS)
 	cp -av $< $@
-
-$(PATCHDST): rust/%: patch/%.patch
-	patch $@ $<
 
 $(PATHS): %:
 	mkdir -p $@
