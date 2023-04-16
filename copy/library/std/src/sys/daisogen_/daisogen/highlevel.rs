@@ -36,3 +36,21 @@ pub mod futex {
         super::super::pd_call1("futex_wake_one", var as *const AtomicUsize as u64);
     }
 }
+
+pub fn phys_alloc(npages: usize) -> Result<usize, ()> {
+    let ptr = super::pd_call1("phys_alloc", npages as u64);
+    if ptr == 0 {
+        Err(())
+    } else {
+        Ok(ptr as usize)
+    }
+}
+
+pub fn phys_of(ptr: usize) -> Result<usize, ()> {
+    let ptr = super::pd_call1("phys_of", ptr as u64);
+    if ptr == 0 {
+        Err(())
+    } else {
+        Ok(ptr as usize)
+    }
+}
